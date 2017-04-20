@@ -16,8 +16,8 @@ int main (int argc, char** argv) {
 	bind_socket (sockfd, addr);
 
 	if (atoi(argv[1])) {
-		void * program = bpf_module_create_c("filter.c", 0, NULL, 0);
-		void * start = bpf_function_start (program, "filter");
+		void* program = bpf_module_create_c("filter.c", 0, NULL, 0);
+		void* start = bpf_function_start (program, "filter");
 		size_t size = bpf_function_size (program, "filter");
 		int progfd = bpf_prog_load(BPF_PROG_TYPE_SOCKET_FILTER, start, size, "GPL", 0, NULL, 0);
 
