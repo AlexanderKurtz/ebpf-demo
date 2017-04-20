@@ -41,7 +41,7 @@ struct addrinfo* udp_lookup (const char* addr, const char* port){
 
 /* socket() with error checking. */
 int get_socket (struct addrinfo* addr) {
-	int result = socket (addr->ai_family, addr->ai_socktype, 0);
+	int result = socket (addr->ai_family, addr->ai_socktype, addr->ai_protocol);
 
 	if (result < 0) {
 		die ("socket() failed");
