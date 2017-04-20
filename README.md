@@ -76,3 +76,30 @@ Empty packets are correctly dropped and never reach the server program. If only
 one client sends data (and only one byte per packet), but many clients send
 empty packets, the data throughput increases significantly with the eBPF filter
 program enabled.
+
+# Example run
+
+Let's try this! On my system, with one good client (```size == 1```) and two bad
+clients (```size == 0```), a 27% performance increase can be achieved:
+
+	$ nproc
+	4
+	$ # Ok, so we can run four processes in parallel...
+	$ # ... so let's use one good client, two bad clients and one server!
+	$ ./client 1 &
+	[1] 22157
+	$ ./client 0 &
+	[2] 22158
+	$ ./client 0 &
+	[3] 22159
+	$ # Without the eBPF filter:
+	$ ./server 0 | dd bs=1MB count=10 iflag=fullblock of=/dev/null
+	10+0 records in
+	10+0 records out
+	10000000 bytes (10 MB, 9.5 MiB) copied, 52.7901 s, 189 kB/s
+	$ # With the eBPF filter:
+	$ ./server 1 | dd bs=1MB count=10 iflag=fullblock of=/dev/null
+	10+0 records in
+	10+0 records out
+	10000000 bytes (10 MB, 9.5 MiB) copied, 41.4149 s, 241 kB/s
+	$
