@@ -1,4 +1,4 @@
-# Summary
+# ebpf-demo - Show the potential performance gains possible with eBPF socket filters
 
 This is a little test project to play with eBPF in general and
 [bcc](https://github.com/iovisor/bcc) in particular.
