@@ -10,6 +10,6 @@ int filter(struct __sk_buff *skb) {
 		return 0;
 	} else {
 		// Forward this packet userspace, do not modify.
-		return -1;
+		return skb->len;
 	}
 }
